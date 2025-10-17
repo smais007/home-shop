@@ -1,10 +1,15 @@
 import { supabase } from "@/lib/supabase";
 import type { Announcement, Countdown, Product, Video } from "@/types/database";
 
+import AboutSection from "./_components/about-section";
 import { AnnouncementMarquee } from "./_components/announcement-marquee";
 import { CountdownTimer } from "./_components/countdown-timer";
+import Footer from "./_components/footer";
+import HeroSection from "./_components/hero-section";
+import KeyPointsSection from "./_components/key-points-section";
 import { ProductShowcase } from "./_components/product-showcase";
 import { VideoSection } from "./_components/video-section";
+import WhyChooseSection from "./_components/why-choose-section";
 
 async function getAnnouncements(): Promise<Announcement[]> {
   const { data, error } = await supabase.from("announcements").select("*").order("created_at", { ascending: false });
@@ -77,6 +82,7 @@ export default async function Home() {
     <div className="min-h-screen">
       {/* Announcement Marquee */}
       {announcements.length > 0 && <AnnouncementMarquee announcements={announcements} />}
+      <HeroSection />
 
       {/* Main Content */}
       <main className="container mx-auto space-y-16 px-4 py-8">
@@ -86,16 +92,18 @@ export default async function Home() {
         {/* YouTube Video */}
         {video && <VideoSection video={video} />}
 
+        <AboutSection />
+
         {/* Product Showcase */}
         {products.length > 0 && <ProductShowcase products={products} />}
+
+        <WhyChooseSection />
+
+        <KeyPointsSection />
       </main>
 
       {/* Footer */}
-      <footer className="bg-muted mt-16 py-8">
-        <div className="text-muted-foreground container mx-auto px-4 text-center">
-          <p>&copy; {new Date().getFullYear()} Home Shopper. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

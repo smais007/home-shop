@@ -1,5 +1,9 @@
 "use client";
 
+import { Megaphone } from "lucide-react";
+
+import { Marquee } from "@/components/ui/marquee";
+import { cn } from "@/lib/utils";
 import type { Announcement } from "@/types/database";
 
 interface AnnouncementMarqueeProps {
@@ -9,13 +13,28 @@ interface AnnouncementMarqueeProps {
 export function AnnouncementMarquee({ announcements }: AnnouncementMarqueeProps) {
   if (announcements.length === 0) return null;
 
-  const messages = announcements.map((a) => a.message).join(" • ");
-
   return (
-    <div className="bg-primary text-primary-foreground relative overflow-hidden py-3">
-      <div className="animate-marquee inline-block whitespace-nowrap">
-        <span className="mx-8 text-sm font-medium">{messages}</span>
-        <span className="mx-8 text-sm font-medium">{messages}</span>
+    <div
+      className={cn(
+        "bg-primary text-primary-foreground sticky top-0 z-50 w-full",
+        "border-primary/20 overflow-hidden border-b shadow-sm",
+      )}
+    >
+      <div className="relative flex items-center justify-center py-2">
+        {/* Left Gradient Fade */}
+        <div className="from-primary pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r to-transparent" />
+        {/* Right Gradient Fade */}
+        <div className="from-primary pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l to-transparent" />
+
+        {/* Marquee */}
+        <Marquee pauseOnHover className="[--duration:25s]">
+          {announcements.map((announcement) => (
+            <div key={announcement.id} className="mx-6 flex items-center space-x-2 text-sm font-medium tracking-wide">
+              <Megaphone className="h-4 w-4 opacity-80" />
+              <span>{announcement.message}</span>
+            </div>
+          ))}
+        </Marquee>
       </div>
     </div>
   );

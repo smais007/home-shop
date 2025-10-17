@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import { CheckCircleIcon, ShieldCheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -12,7 +13,7 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,10 +24,10 @@ interface OrderFormProps {
 }
 
 const orderSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  address: z.string().min(10, "Please provide a complete address"),
-  phone: z.string().regex(/^01[3-9]\d{8}$/, "Please enter a valid Bangladeshi phone number"),
-  quantity: z.number().min(1, "Quantity must be at least 1"),
+  name: z.string().min(2),
+  address: z.string().min(10),
+  phone: z.string().regex(/^01[3-9]\d{8}$/),
+  quantity: z.number().min(1),
 });
 
 type OrderFormValues = z.infer<typeof orderSchema>;
@@ -42,12 +43,7 @@ export function OrderForm({ product }: OrderFormProps) {
 
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderSchema),
-    defaultValues: {
-      name: "",
-      address: "",
-      phone: "",
-      quantity: 1,
-    },
+    defaultValues: { name: "", address: "", phone: "", quantity: 1 },
   });
 
   const quantity = form.watch("quantity");
@@ -58,9 +54,7 @@ export function OrderForm({ product }: OrderFormProps) {
     try {
       const response = await fetch("/api/orders", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           product_id: product.id,
           name: data.name,
@@ -70,24 +64,17 @@ export function OrderForm({ product }: OrderFormProps) {
           total_amount: totalAmount,
         }),
       });
-
       const result = await response.json();
-
       if (!response.ok) {
-        toast.error("Order Failed", {
-          description: result.error ?? "Failed to place order. Please try again.",
-        });
+        toast.error("Order Failed", { description: result.error ?? "Please try again." });
         return;
       }
-
       setOrderNumber(result.order_number);
       setShowSuccessModal(true);
       form.reset();
-    } catch (error) {
-      toast.error("Order Failed", {
-        description: "An error occurred. Please try again.",
-      });
-      console.error("Order error:", error);
+    } catch (err) {
+      console.error(err);
+      toast.error("Order Failed", { description: "An error occurred. Please try again." });
     } finally {
       setIsLoading(false);
     }
@@ -100,41 +87,43 @@ export function OrderForm({ product }: OrderFormProps) {
 
   return (
     <>
-      <Card>
-        <CardContent className="p-6">
-          <div className="grid gap-8 md:grid-cols-2">
+      <Card className="bg-white shadow-lg">
+        <CardContent className="p-8">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-12">
             {/* Product Details */}
             <div>
-              <div className="relative mb-4 aspect-square overflow-hidden rounded-lg">
+              <div className="relative mb-6 aspect-square w-full overflow-hidden rounded-xl shadow-sm">
                 {product.image_url ? (
                   <Image src={product.image_url} alt={product.name} fill className="object-cover" />
                 ) : (
-                  <div className="bg-muted flex size-full items-center justify-center">
-                    <span className="text-muted-foreground">No Image</span>
+                  <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+                    No Image
                   </div>
                 )}
               </div>
-              <h2 className="mb-2 text-2xl font-bold">{product.name}</h2>
-              <div className="mb-4 flex items-center gap-2">
-                {product.offer_price && product.offer_price < product.price ? (
-                  <>
-                    <span className="text-primary text-3xl font-bold">৳{product.offer_price.toFixed(2)}</span>
-                    <span className="text-muted-foreground text-xl line-through">৳{product.price.toFixed(2)}</span>
-                  </>
-                ) : (
-                  <span className="text-primary text-3xl font-bold">৳{product.price.toFixed(2)}</span>
+              <h2 className="mb-2 text-3xl font-bold">{product.name}</h2>
+              <div className="mb-4 flex items-center gap-3">
+                <span className="text-primary text-3xl font-extrabold">৳{effectivePrice.toFixed(2)}</span>
+                {product.offer_price && product.offer_price < product.price && (
+                  <span className="text-muted-foreground text-xl line-through">৳{product.price.toFixed(2)}</span>
                 )}
               </div>
-              <div className="bg-muted rounded-lg p-4">
-                <div className="mb-2 flex justify-between text-lg">
+
+              <div className="flex items-center gap-2">
+                <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                <span className="text-sm text-gray-600">In stock — ready to ship</span>
+              </div>
+
+              <div className="mt-6 rounded-lg bg-gray-50 p-4">
+                <div className="mb-1 flex justify-between text-lg">
                   <span>Unit Price:</span>
                   <span className="font-semibold">৳{effectivePrice.toFixed(2)}</span>
                 </div>
-                <div className="mb-2 flex justify-between text-lg">
+                <div className="mb-1 flex justify-between text-lg">
                   <span>Quantity:</span>
                   <span className="font-semibold">{quantity}</span>
                 </div>
-                <div className="border-border border-t pt-2">
+                <div className="border-t border-gray-200 pt-2">
                   <div className="flex justify-between text-xl font-bold">
                     <span>Total:</span>
                     <span className="text-primary">৳{totalAmount.toFixed(2)}</span>
@@ -144,7 +133,7 @@ export function OrderForm({ product }: OrderFormProps) {
             </div>
 
             {/* Order Form */}
-            <div>
+            <div className="mt-10 lg:mt-0">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
@@ -214,13 +203,12 @@ export function OrderForm({ product }: OrderFormProps) {
                     )}
                   />
 
-                  <div className="bg-muted rounded-lg p-4">
-                    <p className="text-muted-foreground text-sm">
-                      <strong>Payment Method:</strong> Cash on Delivery
-                    </p>
+                  <div className="rounded-lg bg-gray-50 p-4 text-sm text-gray-600">
+                    <ShieldCheckIcon className="mr-1 inline h-5 w-5" />
+                    <span>Cash on Delivery — secure and convenient</span>
                   </div>
 
-                  <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                  <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
                     {isLoading ? "Placing Order..." : "Place Order"}
                   </Button>
                 </form>
@@ -234,16 +222,16 @@ export function OrderForm({ product }: OrderFormProps) {
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl">Order Placed Successfully! 🎉</DialogTitle>
-            <DialogDescription>Thank you for your order!</DialogDescription>
+            <DialogTitle className="text-center text-2xl font-bold">Order Placed Successfully! 🎉</DialogTitle>
+            <DialogDescription className="text-center text-gray-600">Thank you for your order.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 pt-4 text-center">
             <p className="text-lg">Your order has been received.</p>
-            <div className="bg-muted rounded-lg p-4">
-              <p className="text-muted-foreground text-sm">Your Order Number:</p>
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="text-muted-foreground text-sm">Order Number:</p>
               <p className="text-primary text-2xl font-bold">{orderNumber}</p>
             </div>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-sm text-gray-500">
               We will contact you soon to confirm your order. Please keep your phone nearby.
             </p>
             <Button onClick={handleCloseModal} className="w-full">
