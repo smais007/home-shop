@@ -44,22 +44,22 @@ const featuresRight = [
 ];
 
 const LeftColumn = () => (
-  <div>
-    {featuresLeft.map((feature, index) => (
+  <div className="space-y-8">
+    {featuresLeft.map((feature) => (
       <motion.div
-        key={index}
+        key={feature.title}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="flex"
+        transition={{ duration: 0.5 }}
+        className="flex flex-col gap-4 sm:flex-row sm:items-center md:flex-row-reverse md:text-right"
       >
-        <div className="mb-8 flex items-center gap-4 md:text-right lg:flex-row-reverse">
-          <feature.icon className="h-8 w-8 text-[#C18F2C]" />
-          <div>
-            <h3 className="mb-1 text-lg font-semibold">{feature.title}</h3>
-            <p className="text-sm leading-relaxed text-gray-600">{feature.description}</p>
-          </div>
+        <div className="bg-primary/10 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full">
+          <feature.icon className="text-primary h-7 w-7" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-foreground mb-2 text-lg font-bold sm:text-xl">{feature.title}</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed sm:text-base">{feature.description}</p>
         </div>
       </motion.div>
     ))}
@@ -67,21 +67,22 @@ const LeftColumn = () => (
 );
 
 const RightColumn = () => (
-  <div>
-    {featuresRight.map((feature, index) => (
+  <div className="space-y-8">
+    {featuresRight.map((feature) => (
       <motion.div
-        key={index}
+        key={feature.title}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col gap-4 sm:flex-row sm:items-center"
       >
-        <div className="mb-8 flex items-center gap-4">
-          <feature.icon className="h-8 w-8 text-[#C18F2C]" />
-          <div>
-            <h3 className="mb-1 text-lg font-semibold">{feature.title}</h3>
-            <p className="text-sm leading-relaxed text-gray-600">{feature.description}</p>
-          </div>
+        <div className="bg-primary/10 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full">
+          <feature.icon className="text-primary h-7 w-7" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-foreground mb-2 text-lg font-bold sm:text-xl">{feature.title}</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed sm:text-base">{feature.description}</p>
         </div>
       </motion.div>
     ))}
@@ -90,39 +91,42 @@ const RightColumn = () => (
 
 const KeyPointsSection = () => {
   return (
-    <section className="py-16 lg:py-24">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+    <section className="bg-background py-16 sm:py-20 lg:py-28">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="mb-16 text-center lg:mb-20">
-          <p className="mb-3 text-sm tracking-wide text-[#B88A2B] italic">Our Key Points</p>
-          <h2 className="text-[clamp(2rem,4vw,3rem)] leading-tight font-semibold">
-            Superior design, precision <br className="hidden sm:block" />
-            <span className="font-serif text-[#1B2A1F] italic">drop lasting quality</span>
+        <div className="mb-16 text-center lg:mb-24">
+          <p className="text-primary mb-4 text-sm font-semibold tracking-wider uppercase">Our Key Points</p>
+          <h2 className="text-foreground mb-6 text-3xl leading-tight font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Superior design, precision{" "}
+            <span className="text-primary block font-serif italic sm:inline">drop lasting quality</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-gray-600">
+          <p className="text-muted-foreground mx-auto max-w-3xl text-base leading-relaxed sm:text-lg">
             Crafted with superior design, engineered with precision, and built with dedication — every detail reflects
             our commitment to purity, performance, and perfection.
           </p>
         </div>
 
         {/* Features + Image */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-12">
           <LeftColumn />
 
           {/* Center image for large screen */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="flex justify-center md:hidden lg:block"
           >
-            <Image
-              src={bottolWithBox}
-              alt="Oil dropper bottle with golden packaging box"
-              width={446}
-              height={552}
-              className="rounded-2xl"
-            />
+            <div className="relative aspect-[446/552] w-full max-w-md overflow-hidden rounded-2xl">
+              <Image
+                src={bottolWithBox}
+                alt="Oil dropper bottle with golden packaging box"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 0vw, 33vw"
+                className="object-cover"
+              />
+            </div>
           </motion.div>
 
           <RightColumn />
@@ -130,10 +134,10 @@ const KeyPointsSection = () => {
           {/* Secondary image only visible for medium screens */}
         </div>
 
-        {/* Footer */}
-        <div className="text-primary mt-16 text-center text-sm">
-          Let’s make something great work together.{" "}
-          <a href="#" className="text-muted-foreground hover:text-primary">
+        {/* Footer CTA */}
+        <div className="text-muted-foreground mt-16 text-center text-sm sm:text-base lg:mt-20">
+          Lets make something great work together.{" "}
+          <a href="#" className="text-primary transition-colors hover:underline">
             Get Free Quote
           </a>
         </div>

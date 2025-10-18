@@ -42,7 +42,7 @@ export default function CountdownsPage() {
 
   useEffect(() => {
     if (editingCountdown) {
-      setTitle(editingCountdown.title);
+      setTitle(editingCountdown.title ?? "");
       setEndDate(new Date(editingCountdown.end_date));
     } else {
       setTitle("");

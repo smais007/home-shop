@@ -4,44 +4,43 @@ import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <footer className="">
-      <div className="mx-auto max-w-screen-xl px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
+    <footer className="bg-background border-border border-t">
+      <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold sm:text-5xl">এখনই কল করুন</h2>
+          <h2 className="text-foreground mb-6 text-3xl leading-tight font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            এখনই কল করুন
+          </h2>
 
-          <p className="text-muted-foreground mx-auto mt-4 mb-4 max-w-sm">
-            অর্ডার বা যেকোনো সহায়তার জন্য আমাদের কাস্টমার সার্ভিস প্রতিনিধির সাথে সরাসরি কথা বলুন।
+          <p className="text-muted-foreground mx-auto mb-8 max-w-2xl text-base leading-relaxed sm:text-lg">
+            অর্ডার বা যেকোনো সহায়তার জন্য আমাদের কাস্টমার সার্ভিস প্রতিনিধির সাথে সরাসরি কথা বলুন।
           </p>
 
-          <div>
-            <p className="pb-2 font-semibold">WhatsApp & Phone Number</p>
-            <Button variant="outline" className="rounded-full">
+          <div className="flex flex-col items-center gap-4">
+            <p className="text-foreground text-base font-semibold sm:text-lg">WhatsApp & Phone Number</p>
+            <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base">
               <Link href="tel:01994250885">Call Now</Link>
             </Button>
           </div>
         </div>
 
-        <div className="mt-16 border-t pt-8 sm:flex sm:items-center sm:justify-between lg:mt-24">
-          <ul className="flex flex-wrap justify-center gap-4 text-xs lg:justify-end">
+        <div className="border-border mt-16 border-t pt-8 sm:flex sm:items-center sm:justify-between lg:mt-24">
+          <ul className="text-muted-foreground flex flex-wrap justify-center gap-4 text-sm lg:justify-end">
             <li>
-              <a href="#" className="transition hover:opacity-75">
-                {" "}
-                Terms & Conditions{" "}
-              </a>
+              <Link href="#" className="hover:text-foreground transition-colors">
+                Terms & Conditions
+              </Link>
             </li>
 
             <li>
-              <a href="#" className="text-gray-500 transition hover:opacity-75">
-                {" "}
-                Privacy Policy{" "}
-              </a>
+              <Link href="#" className="hover:text-foreground transition-colors">
+                Privacy Policy
+              </Link>
             </li>
 
             <li>
-              <a href="#" className="text-gray-500 transition hover:opacity-75">
-                {" "}
-                Cookies{" "}
-              </a>
+              <Link href="#" className="hover:text-foreground transition-colors">
+                Cookies
+              </Link>
             </li>
           </ul>
 

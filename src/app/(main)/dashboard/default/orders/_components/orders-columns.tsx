@@ -27,8 +27,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import type { Order } from "@/types/database";
+
+declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface TableMeta<TData> {
+    refreshData?: () => void;
+  }
+}
 
 type OrderWithProduct = Order & {
   product?: {
@@ -160,7 +167,7 @@ export const ordersColumns: ColumnDef<OrderWithProduct>[] = [
     accessorKey: "status",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row, table }) => {
-      const status = row.getValue("status");
+      const status = String(row.getValue("status"));
       const orderId = row.original.id;
 
       return (

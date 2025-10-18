@@ -25,16 +25,28 @@ export function VideoSection({ video }: VideoSectionProps) {
   const embedUrl = getYouTubeEmbedUrl(video.youtube_url);
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <h2 className="mb-6 text-center text-3xl font-bold">Watch Our Product Video</h2>
-      <div className="aspect-video overflow-hidden rounded-lg shadow-lg">
-        <iframe
-          src={embedUrl}
-          title="Product Video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="size-full"
-        />
+    <div className="mx-auto w-full max-w-5xl">
+      {/* Section Header */}
+      <div className="mb-8 text-center sm:mb-12">
+        <h2 className="text-foreground mb-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+          Watch Our Product Video
+        </h2>
+        <p className="text-muted-foreground mx-auto max-w-2xl text-base sm:text-lg">
+          See our product in action and discover its features
+        </p>
+      </div>
+
+      {/* Video Container */}
+      <div className="border-border bg-card overflow-hidden rounded-2xl border shadow-xl">
+        <div className="aspect-video">
+          <iframe
+            src={embedUrl}
+            title="Product Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="size-full"
+          />
+        </div>
       </div>
     </div>
   );

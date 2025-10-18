@@ -82,23 +82,40 @@ export default async function Home() {
     <div className="min-h-screen">
       {/* Announcement Marquee */}
       {announcements.length > 0 && <AnnouncementMarquee announcements={announcements} />}
+
+      {/* Hero Section */}
       <HeroSection />
 
       {/* Main Content */}
-      <main className="container mx-auto space-y-16 px-4 py-8">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Countdown Timer */}
-        {countdown && <CountdownTimer countdown={countdown} />}
+        {countdown && (
+          <section className="py-12 sm:py-16 lg:py-20">
+            <CountdownTimer countdown={countdown} />
+          </section>
+        )}
 
         {/* YouTube Video */}
-        {video && <VideoSection video={video} />}
+        {video && (
+          <section className="py-12 sm:py-16 lg:py-20">
+            <VideoSection video={video} />
+          </section>
+        )}
 
+        {/* About Section */}
         <AboutSection />
 
         {/* Product Showcase */}
-        {products.length > 0 && <ProductShowcase products={products} />}
+        {products.length > 0 && (
+          <section className="py-12 sm:py-16 lg:py-20">
+            <ProductShowcase products={products} />
+          </section>
+        )}
 
+        {/* Why Choose Section */}
         <WhyChooseSection />
 
+        {/* Key Points Section */}
         <KeyPointsSection />
       </main>
 

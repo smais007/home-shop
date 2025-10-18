@@ -14,57 +14,71 @@ export function ProductShowcase({ products }: ProductShowcaseProps) {
   if (!products.length) return null;
 
   return (
-    <section className="bg-background">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 className="text-foreground mb-10 text-center text-xl font-bold sm:text-2xl">Featured Products</h2>
+    <section className="w-full">
+      <div className="mx-auto max-w-7xl">
+        {/* Section Header */}
+        <div className="mb-12 text-center sm:mb-16">
+          <h2 className="text-foreground mb-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Featured Products
+          </h2>
+          <p className="text-muted-foreground mx-auto max-w-2xl text-base sm:text-lg">
+            Discover our carefully selected premium products
+          </p>
+        </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
           {products.map((product) => (
-            <div key={product.id} className="group relative">
-              <div className="relative">
-                <div className="relative h-72 w-full overflow-hidden rounded-xl">
-                  {product.image_url ? (
-                    <Image
-                      src={product.image_url}
-                      alt={product.name}
-                      fill
-                      className="object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="bg-muted flex h-full w-full items-center justify-center">
-                      <span className="text-muted-foreground text-sm">No Image</span>
-                    </div>
-                  )}
-                </div>
+            <div
+              key={product.id}
+              className="group border-border bg-card relative flex flex-col overflow-hidden rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-xl"
+            >
+              {/* Product Image */}
+              <div className="bg-muted relative aspect-square w-full overflow-hidden">
+                {product.image_url ? (
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <span className="text-muted-foreground text-sm">No Image</span>
+                  </div>
+                )}
 
-                {/* Price overlay */}
-                <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-xl p-4">
+                {/* Price Badge */}
+                <div className="absolute inset-x-0 top-0 flex h-full items-end justify-end p-4">
                   <div
                     aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/70 opacity-70"
+                    className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
                   />
-                  <p className="relative text-lg font-semibold text-white">
+                  <div className="bg-background/90 relative z-10 rounded-lg px-4 py-2 backdrop-blur-sm">
                     {product.offer_price && product.offer_price < product.price ? (
-                      <>
-                        <span className="text-primary text-xl font-bold">৳{product.offer_price.toFixed(2)}</span>
-                        <span className="ml-2 text-sm text-gray-300 line-through">৳{product.price.toFixed(2)}</span>
-                      </>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="text-primary text-2xl font-bold">৳{product.offer_price.toFixed(2)}</span>
+                        <span className="text-muted-foreground text-sm line-through">৳{product.price.toFixed(2)}</span>
+                      </div>
                     ) : (
-                      <span className="text-primary text-xl font-bold">৳{product.price.toFixed(2)}</span>
+                      <span className="text-primary text-2xl font-bold">৳{product.price.toFixed(2)}</span>
                     )}
-                  </p>
+                  </div>
                 </div>
               </div>
 
               {/* Product Info */}
-              <div className="relative mt-4 text-center">
-                <h3 className="text-foreground text-sm font-medium">{product.name}</h3>
-              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="text-foreground mb-4 text-center text-lg font-semibold">{product.name}</h3>
 
-              {/* Button */}
-              <div className="mt-6">
-                <Link href={`/order/${product.id}`} className="block">
-                  <Button variant="secondary" className="bg-muted text-foreground hover:bg-muted/80 w-full rounded-md">
+                {/* Buy Button */}
+                <Link href={`/order/${product.id}`} className="mt-auto block">
+                  <Button
+                    variant="default"
+                    size="lg"
+                    className="w-full rounded-xl font-semibold shadow-sm transition-all duration-300 hover:shadow-md"
+                  >
                     Buy Now
                   </Button>
                 </Link>
