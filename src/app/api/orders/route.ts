@@ -10,6 +10,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
+    // Verify environment variables
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error("SUPABASE_SERVICE_ROLE_KEY is not set");
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
+    }
+
     // Generate order number: HSOID-DDMMYYYY###
     const now = new Date();
     const day = String(now.getDate()).padStart(2, "0");
@@ -49,7 +55,14 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error("Error creating order:", error);
-      return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
+      console.error("Error details:", JSON.stringify(error, null, 2));
+      return NextResponse.json(
+        {
+          error: "Failed to create order",
+          details: process.env.NODE_ENV === "development" ? error.message : undefined,
+        },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json(
