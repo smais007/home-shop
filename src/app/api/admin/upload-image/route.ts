@@ -45,16 +45,49 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const { data, error } = await supabase.storage.from("product-images").upload(fileName, buffer, {
-      contentType: file.type,
-      cacheControl: "3600",
-      upsert: false,
-    });
+    console.log(`Uploading file: ${fileName}, size: ${file.size} bytes (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
 
-    if (error) {
-      console.error("Upload error:", error);
-      return NextResponse.json({ error: "Failed to upload image" }, { status: 500 });
+    // Upload with retry logic
+    let uploadAttempt = 0;
+    const maxRetries = 2;
+    let uploadError: Error | null = null;
+    let uploadData: { path: string } | null = null;
+
+    while (uploadAttempt <= maxRetries) {
+      const { data, error } = await supabase.storage.from("product-images").upload(fileName, buffer, {
+        contentType: file.type,
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+      if (error) {
+        uploadError = error as Error;
+        console.error(`Upload attempt ${uploadAttempt + 1} failed:`, error);
+        uploadAttempt++;
+
+        if (uploadAttempt <= maxRetries) {
+          console.log(`Retrying upload (${uploadAttempt}/${maxRetries})...`);
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+      } else {
+        uploadData = data;
+        uploadError = null;
+        break;
+      }
     }
+
+    if (uploadError || !uploadData) {
+      console.error("Upload failed after all retries:", uploadError);
+      return NextResponse.json(
+        {
+          error: "Failed to upload image. Please try again with a smaller file or check your internet connection.",
+          details: uploadError?.message ?? "Unknown error",
+        },
+        { status: 500 },
+      );
+    }
+
+    const data = uploadData;
 
     // Get public URL
     const {

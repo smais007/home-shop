@@ -92,13 +92,76 @@ export default function ProductsPage() {
     }
   };
 
+  const compressImage = async (file: File): Promise<File> => {
+    // If file is already small (< 500KB), don't compress
+    if (file.size < 500 * 1024) {
+      return file;
+    }
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        const img = document.createElement("img");
+        img.src = e.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          // Calculate new dimensions (max 1920px width/height)
+          let width = img.width;
+          let height = img.height;
+          const maxDimension = 1920;
+
+          if (width > height && width > maxDimension) {
+            height = (height * maxDimension) / width;
+            width = maxDimension;
+          } else if (height > maxDimension) {
+            width = (width * maxDimension) / height;
+            height = maxDimension;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          // Convert to blob with quality 0.8
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const compressedFile = new File([blob], file.name, {
+                  type: "image/jpeg",
+                  lastModified: Date.now(),
+                });
+                console.log(
+                  `Image compressed: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`,
+                );
+                resolve(compressedFile);
+              } else {
+                resolve(file);
+              }
+            },
+            "image/jpeg",
+            0.8,
+          );
+        };
+        img.onerror = () => reject(new Error("Failed to load image"));
+      };
+      reader.onerror = () => reject(new Error("Failed to read file"));
+    });
+  };
+
   const uploadImage = async (): Promise<string | null> => {
     if (!imageFile) return editingProduct?.image_url ?? null;
 
     setUploading(true);
     try {
+      // Compress image before upload
+      const compressedFile = await compressImage(imageFile);
+
       const formData = new FormData();
-      formData.append("file", imageFile);
+      formData.append("file", compressedFile);
 
       const response = await fetch("/api/admin/upload-image", {
         method: "POST",
@@ -110,7 +173,7 @@ export default function ProductsPage() {
       if (response.ok && data.url) {
         return data.url;
       } else {
-        toast.error("Failed to upload image");
+        toast.error(data.error ?? "Failed to upload image");
         return null;
       }
     } catch (error) {

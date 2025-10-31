@@ -17,8 +17,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     fetch: (url, options = {}) => {
       return fetch(url, {
         ...options,
-        // Increase timeout to 30 seconds
-        signal: AbortSignal.timeout(30000),
+        // Increase timeout to 60 seconds for file uploads
+        signal: AbortSignal.timeout(60000),
       });
     },
   },
@@ -41,8 +41,8 @@ export const getAdminClient = () => {
       fetch: (url, options = {}) => {
         return fetch(url, {
           ...options,
-          // Increase timeout to 30 seconds for admin operations
-          signal: AbortSignal.timeout(30000),
+          // Increase timeout to 60 seconds for admin operations (file uploads)
+          signal: AbortSignal.timeout(60000),
         });
       },
     },

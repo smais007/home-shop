@@ -17,7 +17,7 @@ async function generatePasswordHash(password: string) {
   console.log(`Hash: ${hash}\n`);
   console.log("Copy this hash and use it in your Supabase admins table:");
   console.log("\nINSERT INTO admins (email, password_hash)");
-  console.log(`VALUES ('admin@homeshopper.com', '${hash}');`);
+  console.log(`VALUES ('admin@gmail.com', '${hash}');`);
   console.log("\n==============================================\n");
 }
 

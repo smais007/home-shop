@@ -156,12 +156,12 @@ CREATE POLICY "Authenticated can delete product images"
 
 -- Insert a test admin user (password: admin123)
 -- Password hash generated using bcrypt with 10 rounds
-INSERT INTO admins (email, password_hash) 
-VALUES (
-  'admin@homeshopper.com',
-  '$2a$10$YourHashedPasswordHere'
-)
-ON CONFLICT (email) DO NOTHING;
+-- INSERT INTO admins (email, password_hash) 
+-- VALUES (
+--   'admin@gmail.com',
+--   '$2a$10$YourHashedPasswordHere'
+-- )
+-- ON CONFLICT (email) DO NOTHING;
 
 -- Note: Generate the actual password hash using bcryptjs in your application
 -- Example in Node.js: const hash = await bcrypt.hash('admin123', 10);

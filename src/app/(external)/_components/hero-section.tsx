@@ -5,8 +5,29 @@ import { Phone } from "lucide-react";
 
 import heroProduct from "@/assets/hero-product.png";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
+import type { Video } from "@/types/database";
 
-const HeroSection = () => {
+import { VideoSection } from "./video-section";
+
+async function getVideo(): Promise<Video | null> {
+  const { data, error } = await supabase
+    .from("videos")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) {
+    console.error("Error fetching video:", error);
+    return null;
+  }
+
+  return data;
+}
+
+const HeroSection = async () => {
+  const [video] = await Promise.all([getVideo()]);
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#1a3d2e] to-[#2d5a45] py-12 text-white md:py-16 lg:py-24">
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-[60px]">
@@ -57,6 +78,15 @@ const HeroSection = () => {
             />
           </div>
         </div>
+      </div>
+
+      <div>
+        {/* Hero video */}
+        {video && (
+          <section className="py-12 sm:py-16 lg:py-20">
+            <VideoSection video={video} />
+          </section>
+        )}
       </div>
     </section>
   );

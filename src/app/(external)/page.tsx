@@ -95,13 +95,6 @@ export default async function Home() {
           </section>
         )}
 
-        {/* YouTube Video */}
-        {video && (
-          <section className="py-12 sm:py-16 lg:py-20">
-            <VideoSection video={video} />
-          </section>
-        )}
-
         {/* About Section */}
         <AboutSection />
 

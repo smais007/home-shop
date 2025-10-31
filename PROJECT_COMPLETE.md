@@ -189,6 +189,7 @@ VALUES ('admin', 'your_generated_hash', 'admin@homeshopper.com');
 # Install dependencies
 npm install
 
+
 # Run development server
 npm run dev
 
