@@ -3,12 +3,12 @@ import packageJson from "../../package.json";
 const currentYear = new Date().getFullYear();
 
 export const APP_CONFIG = {
-  name: "Studio Admin",
+  name: "Home Shoppers",
   version: packageJson.version,
-  copyright: `© ${currentYear}, Studio Admin.`,
+  copyright: `© ${currentYear}, Home Shoppers.`,
   meta: {
-    title: "Studio Admin - Modern Next.js Dashboard Starter Template",
+    title: "Home Shoppers - বিশুদ্ধ ফোঁটা, নিখুঁত যত্ন যেটির উপর আপনি ভরসা করতে পারেন।",
     description:
-      "Studio Admin is a modern, open-source dashboard starter template built with Next.js 15, Tailwind CSS v4, and shadcn/ui. Perfect for SaaS apps, admin panels, and internal tools—fully customizable and production-ready.",
+      "আমাদের প্রিমিয়াম ন্যাচারাল হেয়ার অয়েল দিয়ে উপভোগ করুন বিশুদ্ধতা ও নিখুঁততার নিখুঁত ভারসাম্য। সহজ ব্যবহারযোগ্য ডিজাইন ও উন্নত মানের বোতল প্রতিটি ফোঁটা দেয় সঠিক পরিমাণে — কোনো অপচয় নয়, শুধু চুলের জন্য সর্বোচ্চ পুষ্টি ও যত্ন।.",
   },
 };

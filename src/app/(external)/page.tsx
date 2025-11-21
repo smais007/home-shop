@@ -8,7 +8,6 @@ import Footer from "./_components/footer";
 import HeroSection from "./_components/hero-section";
 import KeyPointsSection from "./_components/key-points-section";
 import { ProductShowcase } from "./_components/product-showcase";
-import { VideoSection } from "./_components/video-section";
 import WhyChooseSection from "./_components/why-choose-section";
 
 async function getAnnouncements(): Promise<Announcement[]> {
@@ -71,7 +70,7 @@ async function getProducts(): Promise<Product[]> {
 }
 
 export default async function Home() {
-  const [announcements, countdown, video, products] = await Promise.all([
+  const [announcements, countdown, products] = await Promise.all([
     getAnnouncements(),
     getCountdown(),
     getVideo(),
@@ -83,18 +82,20 @@ export default async function Home() {
       {/* Announcement Marquee */}
       {announcements.length > 0 && <AnnouncementMarquee announcements={announcements} />}
 
+      {/* Countdown Timer - Sticky below announcement */}
+      {countdown && (
+        <div className="supports-[backdrop-filter]:bg-background/80 bg-background/95 sticky top-[44px] z-40 w-full py-4 shadow-md backdrop-blur">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <CountdownTimer countdown={countdown} />
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <HeroSection />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Countdown Timer */}
-        {countdown && (
-          <section className="py-12 sm:py-16 lg:py-20">
-            <CountdownTimer countdown={countdown} />
-          </section>
-        )}
-
         {/* About Section */}
         <AboutSection />
 

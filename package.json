@@ -68,6 +68,7 @@
     "@types/react": "^18.3.26",
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/parser": "^8.26.0",
+    "daisyui": "^5.3.10",
     "eslint": "^9.37.0",
     "eslint-config-next": "^15.5.4",
     "eslint-plugin-import": "^2.32.0",

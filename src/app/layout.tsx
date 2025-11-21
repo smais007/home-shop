@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import LoadingProvider from "@/components/loading-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { APP_CONFIG } from "@/config/app-config";
 import { getPreference } from "@/server/server-actions";
@@ -31,8 +32,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     >
       <body className={`${inter.className} min-h-screen antialiased`}>
         <PreferencesStoreProvider themeMode={themeMode} themePreset={themePreset}>
-          {children}
-          <Toaster />
+          <LoadingProvider>
+            {children}
+            <Toaster />
+          </LoadingProvider>
         </PreferencesStoreProvider>
       </body>
     </html>

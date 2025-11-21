@@ -48,28 +48,41 @@ export function CountdownTimer({ countdown }: CountdownTimerProps) {
   }
 
   return (
-    <div className="bg-muted/40 border-border/50 w-full rounded-2xl border px-6 py-10 text-center shadow-sm backdrop-blur-sm">
-      {countdown.title && <h2 className="text-foreground mb-8 text-3xl font-bold tracking-tight">{countdown.title}</h2>}
+    <div className="w-full text-center">
+      {countdown.title && <h2 className="text-foreground mb-6 text-2xl font-bold tracking-tight sm:text-3xl">{countdown.title}</h2>}
 
-      <div className="mx-auto grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
-        <div className="bg-background/70 border-border/40 rounded-xl border p-5 shadow-sm">
-          <div className="text-primary text-4xl font-bold sm:text-5xl">{timeLeft.days}</div>
-          <div className="text-muted-foreground mt-1 text-sm tracking-wide uppercase">Days</div>
+      <div className="flex justify-center gap-3 sm:gap-5">
+        <div className="flex flex-col items-center">
+          <span className="countdown font-mono text-4xl sm:text-5xl">
+            <span style={{ "--value": timeLeft.days } as React.CSSProperties} aria-live="polite" aria-label={`${timeLeft.days} days`}>
+              {timeLeft.days}
+            </span>
+          </span>
+          <span className="text-muted-foreground mt-2 text-sm uppercase tracking-wide">days</span>
         </div>
-
-        <div className="bg-background/70 border-border/40 rounded-xl border p-5 shadow-sm">
-          <div className="text-primary text-4xl font-bold sm:text-5xl">{timeLeft.hours}</div>
-          <div className="text-muted-foreground mt-1 text-sm tracking-wide uppercase">Hours</div>
+        <div className="flex flex-col items-center">
+          <span className="countdown font-mono text-4xl sm:text-5xl">
+            <span style={{ "--value": timeLeft.hours } as React.CSSProperties} aria-live="polite" aria-label={`${timeLeft.hours} hours`}>
+              {timeLeft.hours}
+            </span>
+          </span>
+          <span className="text-muted-foreground mt-2 text-sm uppercase tracking-wide">hours</span>
         </div>
-
-        <div className="bg-background/70 border-border/40 rounded-xl border p-5 shadow-sm">
-          <div className="text-primary text-4xl font-bold sm:text-5xl">{timeLeft.minutes}</div>
-          <div className="text-muted-foreground mt-1 text-sm tracking-wide uppercase">Minutes</div>
+        <div className="flex flex-col items-center">
+          <span className="countdown font-mono text-4xl sm:text-5xl">
+            <span style={{ "--value": timeLeft.minutes } as React.CSSProperties} aria-live="polite" aria-label={`${timeLeft.minutes} minutes`}>
+              {timeLeft.minutes}
+            </span>
+          </span>
+          <span className="text-muted-foreground mt-2 text-sm uppercase tracking-wide">min</span>
         </div>
-
-        <div className="bg-background/70 border-border/40 rounded-xl border p-5 shadow-sm">
-          <div className="text-primary text-4xl font-bold sm:text-5xl">{timeLeft.seconds}</div>
-          <div className="text-muted-foreground mt-1 text-sm tracking-wide uppercase">Seconds</div>
+        <div className="flex flex-col items-center">
+          <span className="countdown font-mono text-4xl sm:text-5xl">
+            <span style={{ "--value": timeLeft.seconds } as React.CSSProperties} aria-live="polite" aria-label={`${timeLeft.seconds} seconds`}>
+              {timeLeft.seconds}
+            </span>
+          </span>
+          <span className="text-muted-foreground mt-2 text-sm uppercase tracking-wide">sec</span>
         </div>
       </div>
     </div>
