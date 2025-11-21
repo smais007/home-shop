@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import type { Announcement, Countdown, Product, Video } from "@/types/database";
+import type { Announcement, Countdown, Product } from "@/types/database";
 
 import AboutSection from "./_components/about-section";
 import { AnnouncementMarquee } from "./_components/announcement-marquee";
@@ -38,22 +38,6 @@ async function getCountdown(): Promise<Countdown | null> {
   return data;
 }
 
-async function getVideo(): Promise<Video | null> {
-  const { data, error } = await supabase
-    .from("videos")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
-
-  if (error) {
-    console.error("Error fetching video:", error);
-    return null;
-  }
-
-  return data;
-}
-
 async function getProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("products")
@@ -70,12 +54,7 @@ async function getProducts(): Promise<Product[]> {
 }
 
 export default async function Home() {
-  const [announcements, countdown, products] = await Promise.all([
-    getAnnouncements(),
-    getCountdown(),
-    getVideo(),
-    getProducts(),
-  ]);
+  const [announcements, countdown, products] = await Promise.all([getAnnouncements(), getCountdown(), getProducts()]);
 
   return (
     <div className="min-h-screen">
@@ -84,7 +63,7 @@ export default async function Home() {
 
       {/* Countdown Timer - Sticky below announcement */}
       {countdown && (
-        <div className="supports-[backdrop-filter]:bg-background/80 bg-background/95 sticky top-[44px] z-40 w-full py-4 shadow-md backdrop-blur">
+        <div className="supports-backdrop-filter:bg-background/80 bg-background/95 sticky top-11 z-40 w-full py-4 shadow-md backdrop-blur">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <CountdownTimer countdown={countdown} />
           </div>
