@@ -22,5 +22,5 @@ async function generatePasswordHash(password: string) {
 }
 
 // Generate hash for default password
-const defaultPassword = "admin123";
+const defaultPassword = "Samia420@";
 generatePasswordHash(defaultPassword);

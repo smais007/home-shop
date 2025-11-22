@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Phone } from "lucide-react";
 
 import heroProduct from "@/assets/hero-product.png";
+import Logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 import type { Video } from "@/types/database";
@@ -31,6 +32,9 @@ const HeroSection = async () => {
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#1a3d2e] to-[#2d5a45] py-12 text-white md:py-16 lg:py-24">
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-[60px]">
+        <div className="flex items-center justify-center">
+          <Image src={Logo} alt="" width={400} height={250} className="" priority />
+        </div>
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <div className="animated fadeInUp flex flex-col items-center gap-y-6 text-center lg:items-start lg:text-left">
             <p className="text-sm font-semibold tracking-[0.08em] text-[#d4a74a] uppercase">
@@ -43,9 +47,8 @@ const HeroSection = async () => {
             </h1>
 
             <p className="mx-auto max-w-[500px] text-lg leading-relaxed text-[#e5e5e5] lg:mx-0">
-              আমাদের প্রিমিয়াম ন্যাচারাল হেয়ার অয়েল দিয়ে উপভোগ করুন বিশুদ্ধতা ও নিখুঁততার নিখুঁত ভারসাম্য। সহজ
-              ব্যবহারযোগ্য ডিজাইন ও উন্নত মানের বোতল প্রতিটি ফোঁটা দেয় সঠিক পরিমাণে — কোনো অপচয় নয়, শুধু চুলের জন্য
-              সর্বোচ্চ পুষ্টি ও যত্ন।
+              আপনার চুলের যত্নের প্রাকৃতিক সমাধান। ইনশাল্লাহ সবচেয়ে কম সময় এবং সবচেয়ে ভালো প্রোডাক্টটি পৌঁছে দিব
+              আপনাদের হাতে।
             </p>
 
             <div className="flex flex-col items-center gap-x-6 gap-y-4 pt-4 sm:flex-row">

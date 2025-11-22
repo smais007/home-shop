@@ -4,7 +4,7 @@ import React from "react";
 
 import Image from "next/image";
 
-import logoImg from "@/assets/logo.jpeg";
+import logoImg from "@/assets/logo.png";
 
 interface LoadingScreenProps {
   /** Optional small message shown under the logo */

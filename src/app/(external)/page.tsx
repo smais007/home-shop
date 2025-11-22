@@ -18,6 +18,7 @@ async function getAnnouncements(): Promise<Announcement[]> {
     return [];
   }
 
+  console.log("Fetched announcements:", data);
   return data;
 }
 

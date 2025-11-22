@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Award, Briefcase, Droplets, Leaf, ShieldCheck } from "lucide-react";
 
 import bottolWithBox from "@/assets/bottol-with-box.png";
+import aboutImage from "@/assets/singel-product.png";
 
 const featuresLeft = [
   {
@@ -120,7 +121,7 @@ const KeyPointsSection = () => {
           >
             <div className="relative aspect-[446/552] w-full max-w-md overflow-hidden rounded-2xl">
               <Image
-                src={bottolWithBox}
+                src={aboutImage}
                 alt="Oil dropper bottle with golden packaging box"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 0vw, 33vw"

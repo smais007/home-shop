@@ -22,9 +22,9 @@ export function AnnouncementMarquee({ announcements }: AnnouncementMarqueeProps)
     >
       <div className="relative flex items-center justify-center py-2">
         {/* Left Gradient Fade */}
-        <div className="from-primary pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r to-transparent" />
+        <div className="from-primary pointer-events-none absolute inset-y-0 left-0 w-16" />
         {/* Right Gradient Fade */}
-        <div className="from-primary pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l to-transparent" />
+        <div className="from-primary pointer-events-none absolute inset-y-0 right-0 w-16" />
 
         {/* Marquee */}
         <Marquee pauseOnHover className="[--duration:25s]">
